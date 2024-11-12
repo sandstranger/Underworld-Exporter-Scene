@@ -63,7 +63,8 @@ public class NPC : MobileObject
         npc_goal_stand_still_12 = 12,
 		npc_goal_unk13 = 13,
         npc_goal_unk14 = 14,
-        npc_goal_petrified = 15
+        npc_goal_petrified = 15,
+        npc_goal_flee = 16
     };
 
     public enum AttackStages
@@ -1093,7 +1094,7 @@ public class NPC : MobileObject
             case npc_goals.npc_goal_wander_2://Wander randomly	
             case npc_goals.npc_goal_wander_4:
             case npc_goals.npc_goal_wander_8:
-           // case npc_goals.npc_goal_flee://Morale failure. NPC flees in a random direction
+            case npc_goals.npc_goal_flee://Morale failure. NPC flees in a random direction
                 {
                     NPCWanderUpdate();
                     break;
