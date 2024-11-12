@@ -579,8 +579,8 @@ public class OptionsMenuControl : GuiBase_Draggable
     {
         //if (_RES==GAME_UW2)
         //{
-        UWHUD.instance.MessageScroll.Add("Saving Disabled for the moment.");
-        return;
+//        UWHUD.instance.MessageScroll.Add("Saving Disabled for the moment.");
+  //      return;
         //}
 
         //000~001~159~Impossible, you are between worlds. \n

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 /// <summary>
 /// Game clock for the world.
@@ -6,6 +7,8 @@
 /// Ticks up the game clock one minute every [clockrate] seconds.
 public class GameClock : UWEBase
 {
+    public static GameClock instance { get; private set; }
+
     private float totalClock = 0;
     //public static int Clock0
     //{
@@ -233,6 +236,11 @@ public class GameClock : UWEBase
     /// The clock rate. How long is a second relative to the clockTime
     /// </summary>
     public float clockRate = 1.0f;
+
+    private void Awake()
+    {
+        instance = this;
+    }
 
     // Update is called once per frame
     void Update()

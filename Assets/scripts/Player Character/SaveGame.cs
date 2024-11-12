@@ -244,7 +244,6 @@ public class SaveGame : Loader
     {
         //float Ratio=213f;
         //float VertAdjust = 0.3543672f;
-        return;
         //I'm lazy. I'm going to write a temp file and then re-encode using the key.
         FileStream file = File.Open(Path.Combine(BasePath, "SAVE" + slotNo, "playertmp.dat"), FileMode.Create);
         BinaryWriter writer = new BinaryWriter(file);
@@ -297,30 +296,30 @@ public class SaveGame : Loader
                 case 0x59 + 1: ///   z-position	
                 case 0x5B:
                 case 0x5C: ///   heading								
-               // case 0x5D: ///   dungeon level										
-                //    break;//Skip over int 16s for position
-                //case 0x5F:///High nibble is dungeon level+1 with the silver tree if planted
-                //    {
-                //        //int val = (UWCharacter.Instance.ResurrectLevel & 0xf) << 4 | (UWCharacter.Instance.MoonGateLevel & 0xf);
-                //        //DataLoader.WriteInt8(writer, val);
-                //        break;
-                //    }
-              //  case 0x60: ///    bits 2..5: play_poison.  no of active spell effects
-                   // DataLoader.WriteInt8(writer, (((NoOfActiveEffects & 0x3) << 6)) | (UWCharacter.Instance.play_poison << 2) | (Quest.IncenseDream & 0x3));
-               //     break;
+                case 0x5D: ///   dungeon level										
+                    break;//Skip over int 16s for position
+                case 0x5F:///High nibble is dungeon level+1 with the silver tree if planted
+                    {
+                        int val = (UWCharacter.Instance.ResurrectLevel & 0xf) << 4 | (UWCharacter.Instance.MoonGateLevel & 0xf);
+                        DataLoader.WriteInt8(writer, val);
+                        break;
+                    }
+                case 0x60: ///    bits 2..5: play_poison.  no of active spell effects
+                    DataLoader.WriteInt8(writer, (((NoOfActiveEffects & 0x3) << 6)) | (UWCharacter.Instance.play_poison << 2) | (Quest.IncenseDream & 0x3));
+                    break;
                 case 0x61:
                     {
-                        //int val = 0;
-                        //if (Quest.IsTybalsOrbDestroyed)
-                        //{
-                        //    val = 32;//bit 5
-                        //}
-                        //if (Quest.IsCUpOfWonderFound)
-                        //{
-                        //    val |= 64;     // bit 6 is the cup found.
-                        //}
-                        //DataLoader.WriteInt8(writer, val);
-                        //break;
+                        int val = 0;
+                        if (Quest.IsTybalsOrbDestroyed)
+                        {
+                            val = 32;//bit 5
+                        }
+                        if (Quest.IsCupOfWonderFound)
+                        {
+                            val |= 64;     // bit 6 is the cup found.
+                        }
+                        DataLoader.WriteInt8(writer, val);
+                        break;
                     }
                 case 0x64://intoxication and is garamon buried.
                     {
@@ -360,18 +359,18 @@ public class SaveGame : Loader
                 case 0x66 + 2://Quest flags ignore
                 case 0x66 + 3://Quest flags ignore
                     break;
-                //case 0x6A:
-                //    //DataLoader.WriteInt8(writer, Quest.QuestVariablesOBSOLETE[32]); break;
-                //case 0x6B:
-                //    //DataLoader.WriteInt8(writer, Quest.QuestVariablesOBSOLETE[33]); break;
-                //case 0x6C:
-                //    //DataLoader.WriteInt8(writer, Quest.QuestVariablesOBSOLETE[34]); break;
-                //case 0x6D:
-                //    //DataLoader.WriteInt8(writer, Quest.QuestVariablesOBSOLETE[35]); break;
-                //case 0x6E://No of talismans still to destory
-                //   // DataLoader.WriteInt8(writer, Quest.TalismansRemaining); break;
-                //case 0x6F://Garamon dream related?
-                //    //DataLoader.WriteInt8(writer, Quest.GaramonDream); break;
+                case 0x6A:
+                    DataLoader.WriteInt8(writer, Quest.GetQuestVariable(32)); break;
+                case 0x6B:
+                    DataLoader.WriteInt8(writer, Quest.GetQuestVariable(33)); break;
+                case 0x6C:
+                    DataLoader.WriteInt8(writer, Quest.GetQuestVariable(34)); break;
+                case 0x6D:
+                    DataLoader.WriteInt8(writer, Quest.GetQuestVariable(35)); break;
+                case 0x6E://No of talismans still to destory
+                    DataLoader.WriteInt8(writer, Quest.TalismansRemaining); break;
+                case 0x6F://Garamon dream related?
+                    DataLoader.WriteInt8(writer, Quest.GaramonDream); break;
                 case 0x71://Game variables
                 case 0x72:
                 case 0x73:
@@ -437,7 +436,7 @@ public class SaveGame : Loader
                 case 0xAF:
                 case 0xB0:
                     {
-                        //DataLoader.WriteInt8(writer, Quest.variables[i - 0x71]);
+                        DataLoader.WriteInt8(writer, Quest.GetVariable(i - 0x71));
                         break;
                     }
                 case 0xB1://The max mana the player has when their mana is drained by the magic orb.
@@ -463,15 +462,15 @@ public class SaveGame : Loader
                 case 0xB7://Unknown. Always 8
                     DataLoader.WriteInt8(writer, 0x8);
                     break;
-                //case 0xCF: ///   game time
-                //    DataLoader.WriteInt8(writer, 0); break;//Write zero since I don't track milliseconds
+                case 0xCF: ///   game time
+                    DataLoader.WriteInt8(writer, 0); break;//Write zero since I don't track milliseconds
                 //                                           //break;
-                //case 0xD0:
-                //    DataLoader.WriteInt8(writer, GameClock.instance.gametimevals[0]); break;
-                //case 0xD1:
-                //    DataLoader.WriteInt8(writer, GameClock.instance.gametimevals[1]); break;
-                //case 0xD2:
-                //    DataLoader.WriteInt8(writer, GameClock.instance.gametimevals[2]); break;
+                case 0xD0:
+                    DataLoader.WriteInt8(writer, GameClock.instance.gametimevals[0]); break;
+                case 0xD1:
+                    DataLoader.WriteInt8(writer, GameClock.instance.gametimevals[1]); break;
+                case 0xD2:
+                    DataLoader.WriteInt8(writer, GameClock.instance.gametimevals[2]); break;
                 case 0xD3://No of inventory items + 1.
                     DataLoader.WriteInt16(writer, inventoryObjects.GetUpperBound(0) + 1 + 1);
                     break;
